@@ -1,31 +1,22 @@
 import spacy
-import importlib.util
-import subprocess
-import sys
 
-def cargar_modelo_spacy():
-    try:
-        return spacy.load("es_core_news_sm")
-    except OSError:
-        # Si no está instalado, instalarlo dinámicamente
-        subprocess.run([sys.executable, "-m", "spacy", "download", "es_core_news_sm"])
-        return spacy.load("es_core_news_sm")
-
-nlp = cargar_modelo_spacy()
+nlp = spacy.load("es_core_news_sm")
 
 def extraer_parametros(texto):
     doc = nlp(texto.lower())
 
     lugares = [ent.text.title() for ent in doc.ents if ent.label_ == "LOC"]
     if len(lugares) < 2:
+        import re
         lugares = re.findall(r"de ([A-ZÁÉÍÓÚa-záéíóú]+) a ([A-ZÁÉÍÓÚa-záéíóú]+)", texto, re.IGNORECASE)
         if lugares:
             lugares = list(lugares[0])
     if len(lugares) < 2:
         raise ValueError("No se pudieron identificar el origen y destino")
 
+    import re, datetime
     configuracion = None
-    match_config = re.search(r"\b(C[23]S?[23]?)\b", texto.upper())
+    match_config = re.search(r"\\b(C[23]S?[23]?)\\b", texto.upper())
     if match_config:
         configuracion = match_config.group(1)
 
