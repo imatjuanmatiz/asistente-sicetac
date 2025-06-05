@@ -1,6 +1,5 @@
 import spacy
 
-# Esta línea ya funcionará gracias al modelo incluido en requirements.txt
 nlp = spacy.load("es_core_news_sm")
 
 def extraer_parametros(texto):
