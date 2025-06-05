@@ -1,8 +1,17 @@
-import re
-import datetime
 import spacy
+import importlib.util
+import subprocess
+import sys
 
-nlp = spacy.load("es_core_news_sm")
+def cargar_modelo_spacy():
+    try:
+        return spacy.load("es_core_news_sm")
+    except OSError:
+        # Si no está instalado, instalarlo dinámicamente
+        subprocess.run([sys.executable, "-m", "spacy", "download", "es_core_news_sm"])
+        return spacy.load("es_core_news_sm")
+
+nlp = cargar_modelo_spacy()
 
 def extraer_parametros(texto):
     doc = nlp(texto.lower())
