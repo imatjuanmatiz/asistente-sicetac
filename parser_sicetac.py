@@ -1,5 +1,6 @@
 import spacy
 
+# Esta línea ya funcionará gracias al modelo incluido en requirements.txt
 nlp = spacy.load("es_core_news_sm")
 
 def extraer_parametros(texto):
@@ -16,7 +17,7 @@ def extraer_parametros(texto):
 
     import re, datetime
     configuracion = None
-    match_config = re.search(r"\\b(C[23]S?[23]?)\\b", texto.upper())
+    match_config = re.search(r"\b(C[23]S?[23]?)\b", texto.upper())
     if match_config:
         configuracion = match_config.group(1)
 
