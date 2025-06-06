@@ -1,12 +1,15 @@
 
 import pandas as pd
 from difflib import get_close_matches
+import logging
+logging.basicConfig(level=logging.INFO)
 
 class SICETACHelper:
     def __init__(self, archivo_municipios, archivo_camiones):
         self.df_municipios = pd.read_excel(archivo_municipios)
         self.df_camiones = pd.read_excel(archivo_camiones)
         self.columnas_municipios = ['nombre_oficial', 'variacion_1', 'variacion_2', 'variacion_3']
+        self.codigo_municipio_col = 'codigo_dane'
         self.columnas_camiones = ['nombre_oficial', 'variante_2', 'variante_3']
 
     def buscar_municipio(self, nombre_input):
